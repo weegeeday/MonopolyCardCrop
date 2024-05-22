@@ -4,6 +4,16 @@ from PIL import Image
 input_folder = "img"
 output_folder = "output"
 mask = "mask.png"
+#prep
+try:
+    os.mkdir(input_folder)
+except FileExistsError:
+    print("ok1")
+try:
+    os.mkdir(output_folder)
+except FileExistsError:
+    print("ok2")
+
 
 #def ApplyMask(img): useless unless auto-cropping is added
 #    maskl = Image.open(mask)
