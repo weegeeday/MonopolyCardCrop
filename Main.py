@@ -1,9 +1,12 @@
 import os
 from PIL import Image
+import time
+import shutil
 
 input_folder = "img"
 output_folder = "output"
 mask = "mask.png"
+dn = 0
 #prep
 try:
     os.mkdir(input_folder)
@@ -13,6 +16,10 @@ try:
     os.mkdir(output_folder)
 except FileExistsError:
     print("ok2")
+#try:
+#    os.mkdir("imgPNG")
+#except FileExistsError:
+#    print("ok3")
 
 
 #def ApplyMask(img): useless unless auto-cropping is added
@@ -98,9 +105,38 @@ def LayersPrep(imgf):
 
 
 
-def main():
+def ToLayers():
+    global dn
     for x in os.listdir(input_folder):
         FName = os.fsdecode(x)
         print(FName)
         LayersPrep(FName)
-main()
+        if len(os.listdir(input_folder)) > 1:
+            dn = dn + 1
+            print(str(dn))
+            print("more than 1 image...")
+            time.sleep(1)
+            try:
+                os.mkdir(str(dn))
+            except FileExistsError:
+                print("ok")
+            for y in os.listdir(output_folder):
+                z = os.fsdecode(y)
+                shutil.copy2(os.path.join(output_folder,z),os.path.join(str(dn),""))
+
+#def ToPNG(): not really needed, pillow does a good job.
+#    for x in os.listdir(input_folder):
+#        dir = "imgPNG"
+#        FName = os.fsdecode(x)
+#        Name = FName.split(".",1)
+#        imga = Image.open(os.path.join(input_folder,FName))
+#        imga.save(os.path.join(dir,Name[0] + ".png"))   
+
+def Main():
+    print("Starting work...")
+    print("Sep to layers starting...")
+    ToLayers()
+    print("Done!")
+    time.sleep(2)
+
+Main()
